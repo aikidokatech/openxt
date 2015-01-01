@@ -271,7 +271,7 @@ EOF
             OPTS=""
         fi
 
-        ${TOPDIR}/setup_build $OPTS
+	${TOPDIR}/setup_build-next.sh $OPTS
 
         popd > /dev/null
 }

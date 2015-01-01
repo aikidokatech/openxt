@@ -1,4 +1,4 @@
-# Branch to build.
+# OpenXT branch to build.
 BRANCH="master"
 
 # OpenXT git repositories. Optionally replace with a local mirror.
@@ -7,6 +7,21 @@ OPENXT_GIT_PROTOCOL="git"
 
 # Optional mirror of upstream OpenEmbedded git repositories.
 OE_GIT_MIRROR=
+
+# OE branch to build. Best to not follow master unless you are fine with unexpected
+# uprevs of recipe versions.  All other non-OpenXT repos will use this value but
+# fall back to master if they do not follow OE releases.
+OE_BRANCH="daisy"
+
+# Bitbake version to checkout
+BB_BRANCH="1.24"
+
+# These are best set via this or local.settings instead of being set in the script itself.
+BITBAKE_REPO=git://git.openembedded.org/bitbake.git
+OE_CORE_REPO=git://git.openembedded.org/openembedded-core
+META_OE_REPO=git://git.openembedded.org/meta-openembedded
+META_JAVA_REPO=https://github.com/woglinde/meta-java.git
+META_SELINUX_REPO=git://git.yoctoproject.org/meta-selinux
 
 # Downloads needed for OpenXT build. Optionally replace with a local mirror.
 OPENXT_MIRROR="http://mirror.openxt.org"
