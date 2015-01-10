@@ -20,7 +20,7 @@
 BDIR=`readlink -f \`dirname $0\``
 REPOS="$BDIR/repos"
 
-export BB_ENV_EXTRAWHITE="MACHINE BUILD_UID"
+export BB_ENV_EXTRAWHITE="MACHINE BUILD_UID DISTRO"
 PATH="$REPOS/bitbake/bin:$PATH"
 
 # allow to disble OE wrapper script
