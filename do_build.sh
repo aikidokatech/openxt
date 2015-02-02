@@ -1,5 +1,6 @@
 #! /bin/bash -e
 set -o pipefail
+
 STEPS="setupoe,initramfs,stubinitramfs,dom0,uivm,ndvm,syncvm,sysroot,installer,installer2,syncui,source,sdk,license,sourceinfo,ship"
 
 # Additional steps:
@@ -30,6 +31,7 @@ OE_BUILD_CACHE="$TOPDIR/build"
 BRANCH=master
 BUILD_UID=`id -u`
 export BUILD_UID
+DISTRO="openxt"
 
 # TODO: move some of the above definitions into common-config
 
@@ -317,6 +319,7 @@ do_oe()
 
         pushd "$path"
         export MACHINE="$machine"
+	export DISTRO="$DISTRO"
         if [ "x$FREEZE_URIS" = "xyes" ]; then
             echo "Running URI freezer"
              < /dev/null ./bb --disable-wrapper -c freezeall "$image" | do_oe_log
@@ -333,6 +336,22 @@ do_oe()
 
          < /dev/null ./bb $BBFLAGS "$image" | do_oe_log
         popd
+<<<<<<< HEAD
+=======
+
+        if [ -z "${dont_get_log}" -a -z "${NEVER_GET_LOG}" ] ; then
+            mkdir -p "${log_path}"
+            echo "Collecting build logs..." | do_oe_log
+            find $path/tmp-eglibc/work/*/*/*/temp -name "log.do_*" | tar -cjf "${log_path}/$machine-$image.tar.bz2" --files-from=- | do_oe_log
+            echo "Done" | do_oe_log
+            echo "Collecting sigdata..." | do_oe_log
+            find "$path/tmp-eglibc/stamps" -name "*.sigdata.*" | tar -cjf "${log_path}/sigdata-$machine-$image.tar.bz2" --files-from=- | do_oe_log
+            echo "Done" | do_oe_log
+            echo "Collecting buildstats..." | do_oe_log
+            tar -cjf "${log_path}/buildstats-$machine-$image.tar.bz2" "$path/tmp-eglibc/buildstats" | do_oe_log
+            echo "Done" | do_oe_log
+        fi
+>>>>>>> Tweaked the scripts to account for changes in the OE structure.
 }
 
 do_oe_copy()
@@ -347,6 +366,7 @@ do_oe_copy()
         pushd "$path"
         # Copy OE
         mkdir -p "$OUTPUT_DIR/$NAME/raw"
+	echo "In copy function."
         for t in cpio cpio.gz cpio.bz2 \
             tar tar.gz tar.bz2 \
             ext3 ext3.gz ext3.bz2 \
@@ -354,10 +374,16 @@ do_oe_copy()
             xc.ext3 xc.ext3.gz xc.ext3.bz2 \
             xc.ext3.vhd xc.ext3.vhd.gz xc.ext3.vhd.bz2 \
             xc.ext3.bvhd xc.ext3.bvhd.gz xc.ext3.bvhd.bz2
+<<<<<<< HEAD
         do
             if [ -f "$binaries/$image-image-$machine.$t" ]; then
+=======
+	do
+	    echo "Checking for $binaries/$image-image-$machine.$t"
+            if [ -f "$binaries/$machine/$image-image-$machine.$t" ]; then
+>>>>>>> Tweaked the scripts to account for changes in the OE structure.
                 echo "$name image type: $t"
-                cp "$binaries/$image-image-$machine.$t" "$OUTPUT_DIR/$NAME/raw/$name-rootfs.i686.$t"
+                cp "$binaries/$machine/$image-image-$machine.$t" "$OUTPUT_DIR/$NAME/raw/$name-rootfs.i686.$t"
                 unhappy=0
             fi
         done
@@ -484,27 +510,28 @@ do_oe_sysroot()
 do_oe_installer_copy()
 {
         local path="$1"
+        local machine="$2"
         local binaries="tmp-eglibc/deploy/images"
         pushd "$path"
 
         mkdir -p "$OUTPUT_DIR/$NAME/raw/installer"
         # Copy installer
-        cp "$binaries/xenclient-installer-image-xenclient-dom0.cpio.gz" "$OUTPUT_DIR/$NAME/raw/installer/rootfs.i686.cpio.gz"
+        cp "$binaries/$machine/xenclient-installer-image-xenclient-dom0.cpio.gz" "$OUTPUT_DIR/$NAME/raw/installer/rootfs.i686.cpio.gz"
 
         # Copy extra installer files
         rm -rf "$OUTPUT_DIR/$NAME/raw/installer/iso"
-        cp -r "$binaries/xenclient-installer-image-xenclient-dom0/iso" \
+        cp -r "$binaries/$machine/xenclient-installer-image-xenclient-dom0/iso" \
                 "$OUTPUT_DIR/$NAME/raw/installer/iso"
         rm -rf "$OUTPUT_DIR/$NAME/raw/installer/netboot"
-        cp -r "$binaries/xenclient-installer-image-xenclient-dom0/netboot" \
+        cp -r "$binaries/$machine/xenclient-installer-image-xenclient-dom0/netboot" \
                 "$OUTPUT_DIR/$NAME/raw/installer/netboot"
-        cp "$binaries/vmlinuz-xenclient-dom0.bin" \
+        cp "$binaries/$machine/bzImage-xenclient-dom0.bin" \
                 "$OUTPUT_DIR/$NAME/raw/installer/vmlinuz"
-        cp "$binaries/xen.gz" \
+        cp "$binaries/$machine/xen.gz" \
                 "$OUTPUT_DIR/$NAME/raw/installer/xen.gz"
-        cp "$binaries/tboot.gz" \
+        cp "$binaries/$machine/tboot.gz" \
                 "$OUTPUT_DIR/$NAME/raw/installer/tboot.gz"
-        cp "$binaries"/*.acm \
+        cp "$binaries/$machine"/*.acm \
                 "$OUTPUT_DIR/$NAME/raw/installer/"
         popd
 }
@@ -514,18 +541,19 @@ do_oe_installer()
         local path="$1"
 
         do_oe "$path" "xenclient-dom0" "xenclient-installer-image"
-        do_oe_installer_copy $path
+        do_oe_installer_copy $path "xenclient-dom0"
 }
 
 do_oe_installer_part2_copy()
 {
         local path="$1"
+        local machine="$2"
         local binaries="tmp-eglibc/deploy/images"
         pushd "$path"
 
         mkdir -p "$OUTPUT_DIR/$NAME/raw"
 
-        cp "$binaries/xenclient-installer-part2-image-xenclient-dom0.tar.bz2" "$OUTPUT_DIR/$NAME/raw/control.tar.bz2"
+        cp "$binaries/$machine/xenclient-installer-part2-image-xenclient-dom0.tar.bz2" "$OUTPUT_DIR/$NAME/raw/control.tar.bz2"
 
         popd
 }
@@ -535,7 +563,7 @@ do_oe_installer_part2()
         local path="$1"
 
         do_oe "$path" "xenclient-dom0" "xenclient-installer-part2-image"
-        do_oe_installer_part2_copy $path
+        do_oe_installer_part2_copy $path "xenclient-dom0"
 }
 
 do_oe_source_shrink()
@@ -1525,11 +1553,11 @@ do_build()
                         installer)
                                 $bg do_oe_installer "$path" ;;
                         installercp)
-                                do_oe_installer_copy "$path" ;;
+                                do_oe_installer_copy "$path" "xenclient-dom0";;
                         installer2)
                                 $bg do_oe_installer_part2 "$path" ;;
                         installer2cp)
-                                do_oe_installer_part2_copy "$path" ;;
+                                do_oe_installer_part2_copy "$path" "xenclient-dom0";;
                         license*)
                                 $bg do_oe_copy_licenses "$path" ;;
                         sourceinfo*)
