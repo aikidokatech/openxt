@@ -1,6 +1,6 @@
 #! /bin/bash -e
 set -o pipefail
-STEPS="setupoe,initramfs,stubinitramfs,dom0,uivm,ndvm,syncvm,sysroot,installer,installer2,syncui,source,sdk,license,sourceinfo,ship"
+STEPS="initramfs,stubinitramfs,dom0,uivm,ndvm,syncvm,sysroot,installer,installer2,syncui,ship"
 # Additional steps:
 
 # copy: Copies the build output to a web/pxe server. See do_copy() for more details.
