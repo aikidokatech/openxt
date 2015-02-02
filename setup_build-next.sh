@@ -15,7 +15,7 @@ checkout_git_branch() {
 	local branch="$2"
 
 	cd $path
-	git checkout "$branch" 2>/dev/null || { echo "The branch $branch does not exist. Falling back to master."; git checkout master 2>/dev/null; }
+	git checkout "$branch" 2>/dev/null|| git checkout -b "$branch" origin/$branch 2>/dev/null || { echo "The value $branch does not exist as a branch or HEAD position. Falling back to the master branch."; git checkout master 2>/dev/null; }
 	cd $OLDPWD
 }
 
@@ -23,16 +23,13 @@ checkout_git_branch() {
 # fetch_git_repo                                                      #
 # param1: Path (absolute) to place the repo                           #
 # param2: Git url to fetch                                            #
-# param3: Preferred branch to checkout.  Fallback will be to master.  #
 #                                                                     #
 # Fetches the repo specified by param2 into the directory specified   #
-# by param1.  The branch name is not used in the fetch, but to then   #
-# call checkout_git_branch.                                           #
+# by param1.                                                          #
 #######################################################################
 fetch_git_repo() {
 	local path="$1"
 	local repo="$2"
-	local branch="$3"
 
 	echo "Fetching $repo..."
 	set +e
@@ -62,7 +59,6 @@ process_git_repo() {
 	local path="$1"
 	local repo="$2"
 	local branch="$3"
-
 
 	if [ -d $path ]; then
 		# The destination for the repo already exists.
@@ -119,8 +115,16 @@ process_git_repo $REPOS/xenclient-oe https://github.com/aikidokatech/xenclient-o
 process_git_repo $REPOS/bitbake $BITBAKE_REPO $BB_BRANCH
 process_git_repo $REPOS/openembedded-core $OE_CORE_REPO $OE_BRANCH
 process_git_repo $REPOS/meta-openembedded $META_OE_REPO $OE_BRANCH
-process_git_repo $REPOS/meta-java $META_JAVA_REPO $OE_BRANCH
-process_git_repo $REPOS/meta-selinux $META_SELINUX_REPO $OE_BRANCH
+if [ ! -z ${META_JAVA_TAG+x} ]; then
+	process_git_repo $REPOS/meta-java $META_JAVA_REPO $META_JAVA_TAG
+else
+	process_git_repo $REPOS/meta-java $META_JAVA_REPO $OE_BRANCH
+fi
+if [ ! -z ${META_SELINUX_TAG+x} ]; then
+	process_git_repo $REPOS/meta-selinux $META_SELINUX_REPO $META_SELINUX_TAG
+else
+	process_git_repo $REPOS/meta-selinux $META_SELINUX_REPO $OE_BRANCH
+fi
 
 if [ ! -z "$EXTRA_DIR" ]; then
 	process_git_repo $REPOS/$EXTRA_DIR $EXTRA_REPO $EXTRA_TAG
