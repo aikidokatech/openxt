@@ -209,7 +209,7 @@ OPENXT_GIT_PROTOCOL="$OPENXT_GIT_PROTOCOL"
 OPENXT_BRANCH="$ORIGIN_BRANCH"
 OPENXT_TAG="$BRANCH"
 
-require conf/xenclient-extra.conf
+#require conf/xenclient-extra.conf
 EOF
 
                 if [ "x$ID" != "x" ]; then
