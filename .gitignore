@@ -1,4 +1,5 @@
 build/bitbake.lock
+build/cache
 build/conf/local.conf
 build/conf/sanity_info
 build/local.settings
@@ -9,5 +10,8 @@ build/pseudodone
 build/repos
 build/sstate-cache
 build/tmp-eglibc
+build/tmp-glibc
 build-output/*
 *~
+.config
+*.log
