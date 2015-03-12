@@ -21,7 +21,7 @@ BITBAKE_REPO=git://git.openembedded.org/bitbake.git
 OE_CORE_REPO=git://git.openembedded.org/openembedded-core
 META_OE_REPO=git://git.openembedded.org/meta-openembedded
 META_JAVA_REPO=https://github.com/woglinde/meta-java.git
-META_SELINUX_REPO=git://git.yoctoproject.org/meta-java
+META_SELINUX_REPO=git://git.yoctoproject.org/meta-selinux
 
 # Comment the lines below out to get the lastest of each repo
 META_JAVA_TAG=5d528acac0eab6cfaa4ed3c290c7db3acd5047bf
