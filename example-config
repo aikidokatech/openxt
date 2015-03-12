@@ -24,8 +24,8 @@ META_JAVA_REPO=https://github.com/woglinde/meta-java.git
 META_SELINUX_REPO=git://git.yoctoproject.org/meta-selinux
 
 # Comment the lines below out to get the lastest of each repo
-META_JAVA_TAG=5d528acac0eab6cfaa4ed3c290c7db3acd5047bf
-#META_SELINUX_TAG=8e952c7da126d30f4aecb33abd3ef9252785cb40
+#META_JAVA_TAG=5d528acac0eab6cfaa4ed3c290c7db3acd5047bf
+META_SELINUX_TAG="dizzy"
 
 # Downloads needed for OpenXT build. Optionally replace with a local mirror.
 OPENXT_MIRROR="http://mirror.openxt.org"
