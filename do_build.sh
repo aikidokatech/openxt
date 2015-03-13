@@ -118,9 +118,12 @@ do_oe_setup()
 
         echo "*:$BRANCH" > "manifest"
 
+	#If no selinux repo setting exists, assume the default OpenXT repository.
+	META_SELINUX_REPO=${META_SELINUX_REPO:-$OPENXT_GIT_PROTOCOL://$OPENXT_GIT_MIRROR/meta-selinux.git}
+
         if [ ! -f "local.settings" ]; then
                 cat > local.settings <<EOF
-META_SELINUX_REPO=$OPENXT_GIT_PROTOCOL://$OPENXT_GIT_MIRROR/meta-selinux.git
+META_SELINUX_REPO=$META_SELINUX_REPO
 EXTRA_REPO=$OPENXT_GIT_PROTOCOL://$OPENXT_GIT_MIRROR/xenclient-oe-extra.git
 EXTRA_DIR=extra
 EXTRA_TAG="$BRANCH"
