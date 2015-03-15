@@ -99,7 +99,6 @@ VIRTUAL-RUNTIME_keymaps = "xenclient-console-keymaps"
 
 FILESYSTEM_PERMS_TABLES = "files/xc-fs-perms.txt"
 POLKITAUTH = ""
-BBMASK = "busybox_1.19"
 
 # prevent tasks from creating empty "${S}" dir
 do_clean[dirs] = "${WORKDIR}"
