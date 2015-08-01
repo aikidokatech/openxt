@@ -38,8 +38,8 @@ IMAGE_DEPENDS_ext3.vhd = "hs-vhd-native genext2fs-native e2fsprogs-native"
 # raw image - simply copy rootfs tree to deploy directory
 IMAGE_CMD_raw = "cp -a ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.raw"
 
-XC_EXT3_SIZE="327155712"
-XC_EXT3_VHD_SIZE="312"
+XC_EXT3_SIZE="367001600"
+XC_EXT3_VHD_SIZE="350"
 XC_EXT3_BVHD_BLOCKS="319488"
 
 IMAGE_CMD_xc.ext3 = "( set -x; I=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.xc.ext3; truncate -s ${XC_EXT3_SIZE} $I; mke2fs -F -t ext3 $I; tune2fs -c -1 -i 0 $I; gene3fs -i $I -d ${IMAGE_ROOTFS}; e2fsck -f -y $I || true)"
@@ -68,6 +68,8 @@ PREFERRED_VERSION_dojosdk-native = "1.7.2"
 
 PREFERRED_PROVIDER_console-tools = "console-tools"
 PREFERRED_PROVIDER_virtual/libx11 = "libx11"
+
+PREFERRED_VERSION_grub = "2.00+AUTOINC%"
 
 VIRTUAL-RUNTIME_keymaps = "xenclient-console-keymaps"
 
