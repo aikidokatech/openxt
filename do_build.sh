@@ -353,7 +353,6 @@ do_oe_copy()
         pushd "$path"
         # Copy OE
         mkdir -p "$OUTPUT_DIR/$NAME/raw"
-	echo "In copy function."
         for t in cpio cpio.gz cpio.bz2 \
             tar tar.gz tar.bz2 \
             ext3 ext3.gz ext3.bz2 \
