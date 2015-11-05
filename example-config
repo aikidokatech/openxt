@@ -9,7 +9,7 @@ OPENXT_GIT_PROTOCOL="git"
 OE_GIT_MIRROR=
 
 # Bitbake version to checkout
-BB_BRANCH="1.24"
+BB_BRANCH="1.26"
 
 # These are best set via this or local.settings instead of being set in the script itself.
 BITBAKE_REPO=git://git.openembedded.org/bitbake.git
