@@ -1,5 +1,5 @@
 # OpenXT branch to build.
-BRANCH="master"
+OE_BRANCH="fido"
 
 # OpenXT git repositories. Optionally replace with a local mirror.
 OPENXT_GIT_MIRROR="github.com/OpenXT"
@@ -7,11 +7,6 @@ OPENXT_GIT_PROTOCOL="git"
 
 # Optional mirror of upstream OpenEmbedded git repositories.
 OE_GIT_MIRROR=
-
-# OE branch to build. Best to not follow master unless you are fine with unexpected
-# uprevs of recipe versions.  All other non-OpenXT repos will use this value but
-# fall back to master if they do not follow OE releases.
-OE_BRANCH="daisy"
 
 # Bitbake version to checkout
 BB_BRANCH="1.24"
@@ -23,9 +18,10 @@ META_OE_REPO=git://git.openembedded.org/meta-openembedded
 META_JAVA_REPO=git://git.yoctoproject.org/meta-java
 META_SELINUX_REPO=git://git.yoctoproject.org/meta-selinux
 
-# Comment the lines below out to get the lastest of each repo
-#META_JAVA_TAG=5d528acac0eab6cfaa4ed3c290c7db3acd5047bf
-META_SELINUX_TAG="dizzy"
+# Use the lines below out to override checking out the branch matching the OE release
+# The commit has for meta-java is the last commit that had openjdk6 and idedtea6
+META_JAVA_TAG=a73939323984fca1e919d3408d3301ccdbceac9c
+#META_SELINUX_TAG="dizzy"
 
 # Downloads needed for OpenXT build. Optionally replace with a local mirror.
 OPENXT_MIRROR="http://mirror.openxt.org"
