@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+    <default revision="jethro" sync-j="1" />
+
+    <remote fetch="git://git.openembedded.org" name="oe" />
+    <remote fetch="git://git.yoctoproject.org" name="yocto" />
+    <remote fetch="https://github.com" name="github" /> 
+    
+    <project remote="oe" name="bitbake" path="openxt/build/repos/bitbake" revision="1.28" />
+    <project remote="oe" name="openembedded-core" path="openxt/build/repos/openembedded-core" />
+    <project remote="oe" name="meta-openembedded" path="openxt/build/repos/meta-openembedded" />
+    <project remote="yocto" name="meta-selinux" path="openxt/build/repos/meta-selinux" revision="2188d5b09b8f79cce935890ad814b0afafa09b9c" />
+    <project remote="yocto" name="meta-java" path="openxt/build/repos/meta-java" revision="a73939323984fca1e919d3408d3301ccdbceac9c" />
+    <project remote="github" name="openxt/openxt" path="openxt" />
+    <project remote="github" name="openxt/xenclient-oe" path="openxt/build/repos/xenclient-oe" />
+
+    
+    
+    
+</manifest>
